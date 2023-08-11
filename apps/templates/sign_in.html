@@ -1,14 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="" method="post">
-        {% csrf_token %} {{form}}
-        <button type="submit">Sign In</button>
-    </form>
-</body>
-</html>
+{%extends 'base_auth.html' %}
+{% load bootstrap4 %}
+
+{% block title %} Sign In {% endblock %}
+
+{% block heading %} Restaurant - Sign In {% endblock %}
+
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+
+<form action="" method="post">
+    {% csrf_token %} 
+    {% bootstrap_form form %}
+
+    <button type="submit">Sign In</button>
+    <a href="{% url 'restaurant_sign_up' %}">Become a Restaurant?</a>
+</form>
+
+{% endblock %}

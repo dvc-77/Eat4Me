@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
-from django.contrib import messages
 from api.forms import UserForm, RestaurantForm
 
 
@@ -41,3 +40,19 @@ def restaurant_sign_up(request):
         "rf": restaurant_form
     }) 
 
+@login_required(login_url='/login/')
+def restaurant_account(request):
+    return render(request, 'account.html', {})
+
+@login_required(login_url='/login/')
+def restaurant_meal(request):
+    return render(request, 'meal.html', {})
+
+@login_required(login_url='/login/')
+def restaurant_order(request):
+    return render(request, 'order.html', {})
+
+
+@login_required(login_url='/login/')
+def restaurant_report(request):
+    return render(request, 'report.html', {})
