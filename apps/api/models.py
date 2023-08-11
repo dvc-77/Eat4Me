@@ -8,7 +8,7 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    logo = CloudinaryField('image')
+    logo = CloudinaryField('image', blank=True)
 
     def __str__(self):
         return self.name

@@ -9,7 +9,7 @@ from api.forms import UserForm, RestaurantForm
 def index(request):
     return render(request, 'index.html', {})
 
-@login_required(login_url='/login/')
+@login_required(login_url='/api/v1/auth/login/')
 def restaurant_dashboard(request):
     return render(request, 'dashboard.html', {})
 
@@ -40,19 +40,19 @@ def restaurant_sign_up(request):
         "rf": restaurant_form
     }) 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/api/v1/auth/login/')
 def restaurant_account(request):
     return render(request, 'account.html', {})
 
-@login_required(login_url='/login/')
+@login_required(login_url='/api/v1/auth/login/')
 def restaurant_meal(request):
     return render(request, 'meal.html', {})
 
-@login_required(login_url='/login/')
+@login_required(login_url='/api/v1/auth/login/')
 def restaurant_order(request):
     return render(request, 'order.html', {})
 
 
-@login_required(login_url='/login/')
+@login_required(login_url='/api/v1/auth/login/')
 def restaurant_report(request):
     return render(request, 'report.html', {})

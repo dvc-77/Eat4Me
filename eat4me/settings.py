@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'cloudinary',
     'api',
     'bootstrap4',
-]
+    'unittest',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
