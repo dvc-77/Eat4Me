@@ -3,8 +3,10 @@ from django.contrib.auth.models import User
 from api.models import Restaurant
 from api.forms import UserForm, RestaurantForm
 
-class TestCodeUnderTest(TestCase):
+class RestaurantTest(TestCase):
+    SIGN_UP_URL = '/api/v1/auth/signup/'
     LOGIN_URL = '/api/v1/auth/login/'
+    LOGOUT_URL = '/api/v1/auth/logout/'
     DASHBOARD_URL = '/api/v1/auth/dashboard/'
     ACCOUNT_URL = '/api/v1/auth/restaurant/account/'
     MEAL_URL = '/api/v1/auth/restaurant/meal/'
@@ -18,7 +20,7 @@ class TestCodeUnderTest(TestCase):
 
     # Tests that restaurant_sign_up view renders sign_up.html template with UserForm and RestaurantForm on GET request to /restaurant/sign_up/ endpoint
     def test_restaurant_sign_up_view(self):
-        response = self.client.get('/api/v1/auth/signup/')
+        response = self.client.get(self.SIGN_UP_URL)
         self.assertTemplateUsed(response, 'sign_up.html')
         self.assertIsInstance(response.context['uf'], UserForm)
         self.assertIsInstance(response.context['rf'], RestaurantForm)
@@ -35,7 +37,7 @@ class TestCodeUnderTest(TestCase):
             'phone': '1234567890',
             'address': 'Test Address'
         }, follow=True)
-        self.assertRedirects(response, '/api/v1/auth/dashboard/')
+        self.assertRedirects(response, self.DASHBOARD_URL)
         self.assertTemplateUsed(response, 'dashboard.html')
 
     # Tests that unauthenticated user is redirected to /login/ on GET request to /restaurant/dashboard/, /restaurant/account/, /restaurant/meal/, /restaurant/order/, and /restaurant/report/ endpoints
@@ -53,7 +55,7 @@ class TestCodeUnderTest(TestCase):
 
     # Tests that restaurant_sign_up view does not create new User or Restaurant objects and does not log in user on invalid POST request to /restaurant/sign_up/ endpoint
     def test_restaurant_sign_up_view_with_invalid_data(self):
-        response = self.client.post('/api/v1/auth/signup/', {
+        response = self.client.post(self.SIGN_UP_URL, {
             'username': 'testuser',
             'password': 'testpass',
             'first_name': 'Test',
@@ -67,8 +69,8 @@ class TestCodeUnderTest(TestCase):
         self.assertFalse(User.objects.filter(username='testuser').exists())
         self.assertFalse(Restaurant.objects.filter(name='Test Restaurant').exists())
 
-    # Tests that user is redirected to /login/ on successful logout
+    # Tests that user is redirected to / on successful logout
     def test_successful_logout(self):
         self.client.login(username='testuser', password='testpass')
-        response = self.client.get('/api/v1/auth/logout/', follow=True)
+        response = self.client.get(self.LOGOUT_URL, follow=True)
         self.assertRedirects(response, '/')
